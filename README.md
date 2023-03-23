@@ -1,8 +1,8 @@
 # MiSTer Save Downloader
-Quick script to grab all saves off a MiSTer FPGA device via FTP
+Quick script to grab all saves off a MiSTer FPGA device via FTP - Requires Python 3+
 
 ## Use
 - Set IP for MiSTer and enable the FTP server
-- Update config.json with ip/creds
-- Run the script
+- Create config.json from provided example
+- Run `get-saves.py`
 - All saves downloaded to `<project>/saves/<timestamp>`
