@@ -1,10 +1,15 @@
-import json, datetime, os
+import json, datetime, os, sys
 from ftplib import FTP
 
 def main():
     print("MiSTer Save Downloader")
-    with open('./config.json', 'r') as configFile:
-        config = json.load(configFile)
+
+    try:
+        with open('./config.json', 'r') as configFile:
+            config = json.load(configFile)
+    except:
+        print("> Error loading config.json - please see example file")
+        sys.exit()
 
     ftp = FTP(config['ip-address'])
     ftp.login(config['credentials']['user'], config['credentials']['password'])
@@ -16,7 +21,11 @@ def main():
     print(f"> Downloading saves to '{downloadPath}'")
     ftp.cwd("/media/fat/saves")
     cores = ftp.nlst()
+    cores.sort()
     for core in cores:
+        if core in config['exclude-cores']:
+            print(f"> Skipping core '{core}'")
+            continue
         ftp.cwd(f"/media/fat/saves/{core}")
         savelist = ftp.nlst()
         if len(savelist):

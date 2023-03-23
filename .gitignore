@@ -1,6 +1,9 @@
 # Output files
 saves/
 
+# Config files
+config.json
+
 # Editor files
 *.swp
 

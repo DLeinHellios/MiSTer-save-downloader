@@ -1,0 +1,10 @@
+{
+    "ip-address": "192.168.1.1",
+    "credentials": {
+        "user": "root",
+        "password": "1"
+    },
+    "exclude-cores": [
+        "CORE-NAME"
+    ]
+}
