@@ -1,4 +1,4 @@
-import json, datetime, os, sys
+import json, datetime, os, sys, shutil
 from ftplib import FTP
 
 def main():
@@ -24,7 +24,7 @@ def main():
     cores.sort()
     for core in cores:
         if core in config['exclude-cores']:
-            print(f"> Skipping core '{core}'")
+            print(f"> Core '{core}' is on exclude list, skipping")
             continue
         ftp.cwd(f"/media/fat/saves/{core}")
         savelist = ftp.nlst()
@@ -34,11 +34,26 @@ def main():
                 ftp.retrbinary('RETR ' + savefile, open(f"{downloadPath}/{core}/{savefile}", 'wb').write)
             print(f"> Saves for core '{core}' downloaded successfully")
 
-    print("> Downloader completed successfully. Exiting...")
+    print("> All cores completed successfully")
     try:
         ftp.quit()
     except:
         ftp.close()
+
+    if config['max-versions'] > 0:
+        print("> Pruning old save versions")
+        try:
+            versionList = os.listdir("saves/")
+            versionList.sort(reverse=True)
+            if len(versionList) > config['max-versions']:
+                for version in versionList[config['max-versions']:]:
+                    shutil.rmtree(f"saves/{version}")
+            print("> Successfully pruned old versions")
+        except:
+            print("> An error occurred while pruning")
+
+    print("> All tasks complete, exiting...")
+
 
 if __name__ == "__main__":
     main()

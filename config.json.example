@@ -6,5 +6,6 @@
     },
     "exclude-cores": [
         "CORE-NAME"
-    ]
+    ],
+    "max-versions": -1
 }
